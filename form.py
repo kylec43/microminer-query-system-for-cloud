@@ -25,6 +25,7 @@ class form (Tk):
 		self.input_textbox = Text(self, height = 1)
 		self.output_textbox = Text(self)
 
+		
 		self.generate_button = Button(self, text = 'Generate', onPressed = None)
 
 		#Place widgets on grid
