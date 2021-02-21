@@ -23,7 +23,7 @@ class form (Tk):
 		self.output_label = Label(self, text = "Output")
 
 		self.input_textbox = Text(self, height = 5)
-		self.output_textbox = Text(self)
+		self.output_textbox = Text(self, state = 'disable')
 
 		self.generate_button = Button(self, text = 'Generate', command = self.Generate_Output)
 
@@ -35,7 +35,7 @@ class form (Tk):
 		self.output_label.grid(row = 6, column = 9, sticky = 'NESW')
 		self.output_textbox.grid(row = 8, column = 9, sticky = 'NESW')
 
-		self.generate_button.grid(row = 15, column = 9)
+		self.generate_button.grid(row = 10, column = 9)
 
 
 
