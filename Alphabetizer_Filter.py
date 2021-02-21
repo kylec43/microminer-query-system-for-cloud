@@ -4,7 +4,7 @@ class Alphabetizer_Filter:
 		self.lines = []
 
 
-	#Add circular shifted lines
+	#Add circular shifted lines: Done
 	def Add_Lines(self, lines):
 
 		self.lines.extend(lines)
