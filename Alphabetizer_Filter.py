@@ -10,7 +10,7 @@ class Alphabetizer_Filter:
 		self.lines.extend(lines)
 
 
-	#Sort the all circular shifted lines and return them
+	#Sort all of the circular shifted lines and return them
 	def Get_Ordered_Lines(self):
 
 		ordered_lines = []
