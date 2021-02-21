@@ -25,7 +25,7 @@ class form (Tk):
 		self.input_textbox = Text(self, height = 5)
 		self.output_textbox = Text(self)
 
-		self.generate_button = Button(self, text = 'Generate', onPressed = self.Generate_Output())
+		self.generate_button = Button(self, text = 'Generate', command = self.Generate_Output)
 
 
 		#Place widgets on grid
@@ -43,5 +43,5 @@ class form (Tk):
 	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
 	def Generate_Output(self):
-		pass
+		print("hello")
 
