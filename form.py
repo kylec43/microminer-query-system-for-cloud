@@ -40,7 +40,7 @@ class form (Tk):
 
 
 	#1. Get Circular shifts from all input lines by using Circular shift filter
-	#2. Get Sorted Circular shifts by using Alphabetizer filter
+	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
 	def Generate_Output(self):
 		pass
