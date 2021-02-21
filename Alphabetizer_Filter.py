@@ -5,7 +5,6 @@ class Alphabetizer_Filter:
 
 
 	#Add circular shifted lines here
-	#parameter will be a list[]
 	def Add_Lines(self, lines):
 
 		self.lines.extend(lines)
