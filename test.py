@@ -1,46 +1,15 @@
-def a_lessthan_b(a, b):
+line = "Hello world I am kyle"
 
-	least_len = 0
+shifted_line = line
+shifted_line = line.split(' ')
 
-	if len(a) < len(b):
-		least_len = len(a)
-	else:
-		least_len = len(b)
+circular_shift_lines = []
 
-	for i in range(least_len):
+for i in range(len(shifted_line)):
 
-		if a[i].upper() == b[i].upper():
+	circular_shift_lines.append(" ".join(shifted_line))
+	temp_line = shifted_line[0]
+	shifted_line.pop(0)
+	shifted_line.append(temp_line)
 
-			if a[i] == a[i].lower() and b[i] == b[i].upper():
-				return True
-
-			elif a[i] == a[i].upper() and b[i] == b[i].lower():
-				return False
-
-		else:
-
-			if a[i].upper() <= b[i].upper():
-				return True
-
-			else:
-				return False
-
-	return True
-
-
-
-
-
-lis = ["catMan and robin", "Batman and rObin", "Catman and roBin", "batman and robin", "baTman anD roBin"]
-lis2 = ["a", "c", "d", "b"]
-
-for i in range(0, len(lis)-1, 1):
-	for k in range(0, len(lis)-i-1, 1):
-
-		if not a_lessthan_b(lis[k], lis[k+1]):
-			lis[k], lis[k+1] = lis[k+1], lis[k]
-
-
-print(lis)
-
-
+print(circular_shift_lines)
