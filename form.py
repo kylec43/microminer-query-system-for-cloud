@@ -47,7 +47,11 @@ class form (Tk):
 	#3. Display Sorted Circular shifts in output_textbox
 	def Generate_Output(self):
 		
+		self.output_textbox.configure(state = 'normal')
 		self.output_textbox.delete('1.0', END)
+		self.output_textbox.configure(state = 'disabled')
+
+
 		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
 
 		alphabetizer_filter = Alphabetizer_Filter()

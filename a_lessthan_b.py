@@ -8,6 +8,9 @@ def a_lessthan_b(a, b):
 		least_len = len(b)
 
 	for i in range(least_len):
+		
+		if a[i] == ' ':
+			continue
 
 		if a[i].upper() == b[i].upper():
 
