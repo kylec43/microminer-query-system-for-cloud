@@ -11,8 +11,11 @@ class Alphabetizer_Filter:
 
 
 	#Sort all of the circular shifted lines and return them
-	def Get_Ordered_Lines(self):
+	def Get_Sorted_Lines(self):
 
-		ordered_lines = []
 
-		return ordered_lines
+		sorted_lines = self.lines.copy()
+
+		
+
+		return sorted_lines
