@@ -2,6 +2,9 @@ from tkinter import Tk
 from tkinter import Label
 from tkinter import Text
 from tkinter import Button
+from tkinter import END
+from Circular_Shift_Filter import Circular_Shift_Filter
+from Alphabetizer_Filter import Alphabetizer_Filter
 
 class form (Tk):
 
@@ -43,5 +46,24 @@ class form (Tk):
 	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
 	def Generate_Output(self):
-		print("hello")
+		
+		self.output_textbox.delete('1.0', END)
+		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
+
+		alphabetizer_filter = Alphabetizer_Filter()
+
+		for i in range(len(input_lines)):
+			circular_shift_filter = Circular_Shift_Filter(input_lines[i])
+			alphabetizer_filter.Add_Lines(circular_shift_filter.Get_Circular_Shifts())
+
+		output_lines = alphabetizer_filter.Get_Sorted_Lines()
+
+		self.output_textbox.configure(state = 'normal')
+
+		for i in range(len(output_lines)):
+			self.output_textbox.insert(END, output_lines[i] + '\n')
+
+		self.output_textbox.configure(state = 'disabled')
+
+
 
