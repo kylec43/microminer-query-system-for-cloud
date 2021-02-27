@@ -65,13 +65,6 @@ class form (Tk):
 		self.output_textbox.configure(state = 'normal')
 
 		for i in range(len(output_lines)):
-
-			while output_lines[i][0] == ' ':
-				lis = output_lines[i].split()
-				lis.pop(0)
-				output_lines[i] = "".join(lis)
-
-
 			self.output_textbox.insert(END, output_lines[i] + '\n')
 
 		self.output_textbox.configure(state = 'disabled')
