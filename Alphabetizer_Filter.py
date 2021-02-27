@@ -1,4 +1,5 @@
 from a_lessthan_b import a_lessthan_b
+from quick_sort import qs
 
 class Alphabetizer_Filter:
 
@@ -18,12 +19,7 @@ class Alphabetizer_Filter:
 
 		sorted_lines = self.lines.copy()
 
-		for i in range(0, len(sorted_lines)-1, 1):
-			for k in range(0, len(sorted_lines)-i-1, 1):
-
-				if not a_lessthan_b(sorted_lines[k], sorted_lines[k+1]):
-					sorted_lines[k], sorted_lines[k+1] = sorted_lines[k+1], sorted_lines[k]
-
+		qs(sorted_lines, 0, len(sorted_lines)-1)
 
 		return sorted_lines
 

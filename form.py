@@ -13,7 +13,7 @@ class form (Tk):
 		Tk.__init__(self) 
 
 		self.title('Pipes and Filters')
-		self.minsize(640, 480)
+		self.minsize(800, 600)
 
 		#configure grid 20x20
 		for i in range(20):
@@ -25,8 +25,8 @@ class form (Tk):
 		self.input_label = Label(self, text = "Input")
 		self.output_label = Label(self, text = "Output")
 
-		self.input_textbox = Text(self, height = 5)
-		self.output_textbox = Text(self, state = 'disable')
+		self.input_textbox = Text(self, height = 5, width = 100, wrap='none')
+		self.output_textbox = Text(self, state = 'disable', width = 100, wrap='none')
 
 		self.generate_button = Button(self, text = 'Generate', command = self.Generate_Output)
 
