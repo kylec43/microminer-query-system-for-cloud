@@ -8,7 +8,7 @@ def partition(lis, low, high):
 	for i in range(low, high, 1):
 		if a_lessthan_b(lis[i], pivot):
 			last_small += 1
-			lis[i], lis[high] = lis[high], lis[i]
+			lis[i], lis[last_small] = lis[last_small], lis[i]
 
 	lis[last_small+1], lis[high] = lis[high], lis[last_small+1]
 
@@ -17,12 +17,9 @@ def partition(lis, low, high):
 
 
 def qs(lis, low, high):
-	if low > high:
-		return
-
-
-	part = partition(lis, low, high)
-	qs(lis, part+1, high)
-	qs(lis, low, part-1)
+	if low < high:
+		part = partition(lis, low, high)
+		qs(lis, part+1, high)
+		qs(lis, low, part-1)
 
 	

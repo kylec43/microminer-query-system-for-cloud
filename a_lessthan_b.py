@@ -1,5 +1,11 @@
 def a_lessthan_b(a, b):
 
+	a = a.split(' ')
+	b = b.split(' ')
+
+	a = "".join(a)
+	b = "".join(b)
+
 	least_len = 0
 
 	if len(a) < len(b):
@@ -7,10 +13,9 @@ def a_lessthan_b(a, b):
 	else:
 		least_len = len(b)
 
+
 	for i in range(least_len):
 		
-		if a[i] == ' ':
-			continue
 
 		if a[i].upper() == b[i].upper():
 

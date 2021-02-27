@@ -14,7 +14,7 @@ class Circular_Shift_Filter:
 		circular_shift_lines = []
 
 		for i in range(len(shifted_line)):
-
+			
 			circular_shift_lines.append(" ".join(shifted_line))
 			
 			temp_line = shifted_line[0]
