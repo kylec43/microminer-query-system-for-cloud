@@ -1,7 +1,7 @@
 def a_lessthan_b(a, b):
 
-	a = a.split(' ')
-	b = b.split(' ')
+	a = a.strip().split(' ')
+	b = b.strip().split(' ')
 
 	a = "".join(a)
 	b = "".join(b)
