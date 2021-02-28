@@ -1,6 +1,8 @@
-class Alphabetizer_Filter:
+from Filter import Filter
 
-	def __init__(self, lines):
+class Alphabetizer_Filter(Filter):
+
+	def Add_Data(self, lines):
 
 		self.sorted_lines = lines
 		self._qs(self.sorted_lines, 0, len(self.sorted_lines)-1)

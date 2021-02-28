@@ -1,15 +1,11 @@
-from Circular_Shift_Filter import Circular_Shift_Filter
-from Alphabetizer_Filter import Alphabetizer_Filter
+def Execute_Filters(data, *filters):
 
-def Execute_Circular_Shift_Filter(lines):
+	transformed_data = data
 
-	circular_shift_filter = Circular_Shift_Filter(lines)
-	return circular_shift_filter.Get_Circular_Shifts()
+	for filter in filters:
+		filter.Add_Data(transformed_data)
+		transformed_data = filter.Get_Transformed_Data()
 
-
-
-def Excecute_Alphabetizer(lines):
-	alphabetizer = Alphabetizer_Filter(lines)
-	return alphabetizer.Get_Sorted_Lines()
+	return transformed_data
 
 

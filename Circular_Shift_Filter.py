@@ -1,6 +1,8 @@
-class Circular_Shift_Filter:
+from Filter import Filter
 
-	def __init__(self, lines):
+class Circular_Shift_Filter(Filter):
+
+	def Add_Data(self, lines):
 		
 		self.circular_shifted_lines = []
 

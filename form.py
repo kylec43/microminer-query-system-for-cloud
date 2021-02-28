@@ -3,7 +3,9 @@ from tkinter import Label
 from tkinter import Text
 from tkinter import Button
 from tkinter import END
-import Filter_Execution
+from Circular_Shift_Filter import Circular_Shift_Filter
+from Alphabetizer_Filter import Alphabetizer_Filter
+from Filter_Execution import Execute_Filters
 
 
 class form (Tk):
@@ -54,13 +56,12 @@ class form (Tk):
 
 		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
 
-		circular_shifted_lines = Filter_Execution.Execute_Circular_Shift_Filter(input_lines)
-		alphabetized_lines = Filter_Execution.Excecute_Alphabetizer(circular_shifted_lines)
-
+		
+		output_lines = Execute_Filters(input_lines, Circular_Shift_Filter(), Alphabetizer_Filter())
 
 		self.output_textbox.configure(state = 'normal')
 
-		for i in range(len(alphabetized_lines)):
-			self.output_textbox.insert(END, alphabetized_lines[i] + '\n')
+		for i in range(len(output_lines)):
+			self.output_textbox.insert(END, output_lines[i] + '\n')
 
 		self.output_textbox.configure(state = 'disabled')
