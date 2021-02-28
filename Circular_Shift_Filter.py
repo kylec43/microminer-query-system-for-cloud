@@ -1,19 +1,24 @@
 class Circular_Shift_Filter:
 
-	def __init__(self, line):
+	def __init__(self, lines):
 		
-		self.line = line
+		self.circular_shifted_lines = []
+
+		for i in range(len(lines)):
+			self.circular_shifted_lines.extend(self._Get_Circular_Shifts(lines[i]))
+		
 
 
-	#Get all circular shifts for the line
-	def Get_Circular_Shifts(self):
+	#Get all circular shifts for a single line
+	def _Get_Circular_Shifts(self, line):
 		
 				
-		shifted_line = self.line.strip().split(' ')
+		shifted_line = line.strip().split(' ')
 
 		circular_shift_lines = []
 
-		for i in range(len(shifted_line)):
+		i = 0
+		while i < len(shifted_line):
 			
 
 			circular_shift_lines.append(" ".join(shifted_line))
@@ -22,5 +27,11 @@ class Circular_Shift_Filter:
 			shifted_line.pop(0)
 			shifted_line.append(temp_line)
 
+			i += 1
 
 		return circular_shift_lines
+
+
+	#Return all circular shifts of all lines
+	def Get_Circular_Shifts(self):
+		return self.circular_shifted_lines
