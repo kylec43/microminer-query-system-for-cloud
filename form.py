@@ -5,7 +5,7 @@ from tkinter import Button
 from tkinter import END
 from Circular_Shift_Filter import Circular_Shift_Filter
 from Alphabetizer_Filter import Alphabetizer_Filter
-from Filter_Execution import Execute_Filters
+from Filter_Pipeline import Filter_Pipeline
 
 
 class form (Tk):
