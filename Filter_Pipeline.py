@@ -1,10 +1,10 @@
 class Filter_Pipeline:
 
-
-	def _init_(self, *filters):
+	def __init__(self, *filters):
 
 		self._transformed_data = None
 		self._filters = list(filters)
+
 
 
 	def run(self, data):

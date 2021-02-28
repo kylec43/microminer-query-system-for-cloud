@@ -7,7 +7,7 @@ class Alphabetizer_Filter(Filter):
 
 	def Process_Data(self, lines):
 
-		self.sorted_lines = lines
+		self._sorted_lines = lines
 		self._qs(self._sorted_lines, 0, len(self._sorted_lines)-1)
 
 
