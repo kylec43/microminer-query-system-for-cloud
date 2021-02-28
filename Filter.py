@@ -1,9 +1,11 @@
-import abc
+from abc import ABC, abstractmethod
 
-class Filter(abc.ABC):
+class Filter(ABC):
 
-	def Get_Transformed_Data(self):
-		pass
+	@abstractmethod
+	def Add_Data(self, data): raise NotImplementedError
 
-	def Add_Data(self, data):
-		pass
+	@abstractmethod
+	def Get_Transformed_Data(self): raise NotImplementedError
+
+	

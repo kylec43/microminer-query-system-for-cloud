@@ -1,4 +1,4 @@
-def Execute_Filters(data, *filters):
+def Filter_Pipeline(data, *filters):
 
 	transformed_data = data
 
