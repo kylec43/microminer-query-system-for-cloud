@@ -62,20 +62,27 @@ class form (Tk):
 	#3. Display Sorted Circular shifts in output_textbox
 	def Generate_Output(self):
 		
-		self.output_textbox.configure(state = 'normal')
-		self.output_textbox.delete('1.0', END)
-		self.output_textbox.configure(state = 'disabled')
 
-
-		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
+		input_lines = self._Get_Textbox_Lines(self.input_textbox)
 
 		filter_pipeline = Filter_Pipeline(Circular_Shift_Filter(), Alphabetizer_Filter())
 		filter_pipeline.run(input_lines)
 		output_lines = filter_pipeline.Get_Transformed_Data()
 
-		self.output_textbox.configure(state = 'normal')
+		self._Print_Output(output_lines, self.output_textbox)
+
+
+	def _Get_Textbox_Lines(self, text_box):
+		return str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
+
+
+	def _Print_Output(self, output_lines, output_textbox):
+
+		output_textbox.configure(state = 'normal')
+
+		output_textbox.delete('1.0', END)
 
 		for i in range(len(output_lines)):
-			self.output_textbox.insert(END, output_lines[i] + '\n')
+			output_textbox.insert(END, output_lines[i] + '\n')
 
-		self.output_textbox.configure(state = 'disabled')
+		output_textbox.configure(state = 'disabled')
