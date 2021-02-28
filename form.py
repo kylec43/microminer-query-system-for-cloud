@@ -43,7 +43,7 @@ class form (Tk):
 		scrollbar2 = Scrollbar(self, command=self.output_textbox.xview, orient='horizontal')
 		self.output_textbox['xscrollcommand'] = scrollbar2.set
 
-		self.generate_button = Button(self, text = 'Generate', command = self.Generate_Output)
+		self.generate_button = Button(self, text = 'Generate', command = self._Generate_Output)
 
 
 		#Place widgets on grid
@@ -60,7 +60,7 @@ class form (Tk):
 	#1. Get Circular shifts from all input lines by using Circular shift filter
 	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
-	def Generate_Output(self):
+	def _Generate_Output(self):
 		
 
 		input_lines = self._Get_Textbox_Lines(self.input_textbox)
