@@ -3,20 +3,20 @@ class Filter_Pipeline:
 
 	def _init_(self, *filters):
 
-		self.transformed_data = None
-		self.filters = list(filters)
+		self._transformed_data = None
+		self._filters = list(filters)
 
 
 	def run(self, data):
 
-		self.transformed_data = data
+		self._transformed_data = data
 
-		for filter in self.filters:
-			filter.Process_Data(transformed_data)
-			transformed_data = filter.Get_Transformed_Data()
+		for filter in self._filters:
+			filter.Process_Data(self._transformed_data)
+			self._transformed_data = filter.Get_Transformed_Data()
 
 
 	def Get_Transformed_Data(self):
-		return self.transformed_data
+		return self._transformed_data
 
 
