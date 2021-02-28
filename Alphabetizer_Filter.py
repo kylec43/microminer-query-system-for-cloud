@@ -3,17 +3,17 @@ from Filter import Filter
 class Alphabetizer_Filter(Filter):
 
 	def __init__(self):
-		self.sorted_lines = []
-		
+		self._sorted_lines = []
+
 	def Process_Data(self, lines):
 
 		self.sorted_lines = lines
-		self._qs(self.sorted_lines, 0, len(self.sorted_lines)-1)
+		self._qs(self._sorted_lines, 0, len(self._sorted_lines)-1)
 
 
 	#Return alphabetized lines
 	def Get_Transformed_Data(self):
-		return self.sorted_lines
+		return self._sorted_lines
 
 
 	#quick sort lines in list

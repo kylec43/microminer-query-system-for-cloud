@@ -3,14 +3,14 @@ from Filter import Filter
 class Circular_Shift_Filter(Filter):
 
 	def __init__(self):
-		
-		self.circular_shifted_lines = []
+
+		self._circular_shifted_lines = []
 
 
 	def Process_Data(self, lines):
 		
 		for i in range(len(lines)):
-			self.circular_shifted_lines.extend(self._Get_Circular_Shifts(lines[i]))
+			self._circular_shifted_lines.extend(self._Get_Circular_Shifts(lines[i]))
 		
 
 	#Get all circular shifts for a single line
@@ -56,4 +56,4 @@ class Circular_Shift_Filter(Filter):
 
 	#Return all circular shifts of all lines
 	def Get_Transformed_Data(self):
-		return self.circular_shifted_lines
+		return self._circular_shifted_lines
