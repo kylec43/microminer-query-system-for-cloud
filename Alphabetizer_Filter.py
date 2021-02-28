@@ -9,7 +9,7 @@ class Alphabetizer_Filter(Filter):
 
 
 	#Return alphabetized lines
-	def Get_Sorted_Lines(self):
+	def Get_Transformed_Data(self):
 		return self.sorted_lines
 
 

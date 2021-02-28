@@ -35,5 +35,5 @@ class Circular_Shift_Filter(Filter):
 
 
 	#Return all circular shifts of all lines
-	def Get_Circular_Shifts(self):
+	def Get_Transformed_Data(self):
 		return self.circular_shifted_lines

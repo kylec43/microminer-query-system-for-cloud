@@ -1,12 +1,9 @@
-from abc import ABCMeta, abstractmethod
+import abc
 
-class Filter(object):
+class Filter(abc.ABC):
 
-	__metaclass__=ABCMeta
-	@abstractmethod
 	def Get_Transformed_Data(self):
-		return
+		pass
 
-	@abstractmethod
 	def Add_Data(self, data):
-		return
+		pass
