@@ -2,7 +2,10 @@ from Filter import Filter
 
 class Alphabetizer_Filter(Filter):
 
-	def Add_Data(self, lines):
+	def __init__(self):
+		self.sorted_lines = []
+		
+	def Process_Data(self, lines):
 
 		self.sorted_lines = lines
 		self._qs(self.sorted_lines, 0, len(self.sorted_lines)-1)

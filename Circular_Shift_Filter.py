@@ -2,10 +2,13 @@ from Filter import Filter
 
 class Circular_Shift_Filter(Filter):
 
-	def Add_Data(self, lines):
+	def __init__(self):
 		
 		self.circular_shifted_lines = []
 
+
+	def Process_Data(self, lines):
+		
 		for i in range(len(lines)):
 			self.circular_shifted_lines.extend(self._Get_Circular_Shifts(lines[i]))
 		
