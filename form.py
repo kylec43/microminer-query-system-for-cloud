@@ -57,8 +57,9 @@ class form (Tk):
 
 		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
 
-		
-		output_lines = Filter_Pipeline(input_lines, Alphabetizer_Filter(), Circular_Shift_Filter())
+		filter_pipeline = Filter_Pipeline(Alphabetizer_Filter(), Circular_Shift_Filter())
+		filter_pipeline.run(input_lines)
+		output_lines = filter_pipeline.Get_Transformed_Data()
 
 		self.output_textbox.configure(state = 'normal')
 
