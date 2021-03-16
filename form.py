@@ -7,10 +7,14 @@ from tkinter import Scrollbar
 from tkinter.scrolledtext import ScrolledText
 from tkinter import RIGHT
 from tkinter import Y
-from Circular_Shift_Filter import Circular_Shift_Filter
-from Alphabetizer_Filter import Alphabetizer_Filter
-from Filter_Pipeline import Filter_Pipeline
+from Circular_Shift import Circular_Shift
+from Alphabetizer import Alphabetizer
+from Line_Manager import Line_Manager
 import tkinter as tk
+import time
+import sys
+from statistics import mean
+import threading
 
 
 class form (Tk):
@@ -19,7 +23,7 @@ class form (Tk):
 
 		Tk.__init__(self) 
 
-		self.title('Pipes and Filters')
+		self.title('Shared Data OO')
 		self.minsize(800, 600)
 
 		#configure grid 20x20
@@ -56,33 +60,98 @@ class form (Tk):
 		self.generate_button.grid(row = 8, column = 4)
 
 
+	def start_it(self):
+		t = threading.Thread(target = self._Generate_Output)
+		t.start()
 
 	#1. Get Circular shifts from all input lines by using Circular shift filter
 	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
 	def _Generate_Output(self):
 		
+		get_lines_time = []
+		circular_shift_time = []
+		alphabetizer_time = []
+		print_output_time = []
+		total_time_time = []
+		for i in range(50):
+			print('loop=',i)
+			total_time_start = time.time()
 
-		input_lines = self._Get_Textbox_Lines(self.input_textbox)
+			noise_words = {"a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out", "by", "as", "at", "off"}
 
-		filter_pipeline = Filter_Pipeline(Circular_Shift_Filter(), Alphabetizer_Filter())
-		filter_pipeline.run(input_lines)
-		output_lines = filter_pipeline.Get_Transformed_Data()
+			time_start = time.time()
+			line_manager = Line_Manager(self._Get_Textbox_Lines(self.input_textbox))
+			time_end = time.time()
+			total_time = time_end-time_start
+			#print("Get_lines", total_time)
+			get_lines_time.append(total_time)
+			
 
-		self._Print_Output(output_lines, self.output_textbox)
+			time_start = time.time()
+			circular_shift = Circular_Shift(line_manager)
+			time_end = time.time()
+			total_time = time_end-time_start
+			#print("circular shift", total_time)
+			circular_shift_time.append(total_time)
+
+			time_start = time.time()
+			alphabetizer = Alphabetizer(line_manager, circular_shift.getOffsets())
+			time_end = time.time()
+			total_time = time_end-time_start
+			#print("alphabetizer", total_time)
+			alphabetizer_time.append(total_time)
+
+
+			time_start = time.time()
+			sorted_offsets = alphabetizer.GetSortedOffsets()
+			time_end = time.time()
+			total_time = time_end-time_start
+			#print("sorted_indexes", total_time)
+
+			time_start = time.time()
+			self._Print_Output(self.output_textbox, line_manager, sorted_offsets, noise_words)
+			time_end = time.time()
+			total_time = time_end-time_start
+			#print('output', total_time)
+			print_output_time.append(total_time)
+
+			total_time_end = time.time()
+			total_time = total_time_end - total_time_start
+			#print('total time', total_time)
+			total_time_time.append(total_time)
+
+		
+		print("get lines=", mean(get_lines_time))
+		print("circular shift=",mean(circular_shift_time))
+		print('alphabetizer=',mean(alphabetizer_time))
+		print('print output=',mean(print_output_time))
+		print('total time=',mean(total_time_time))
+
+		
+
 
 
 	def _Get_Textbox_Lines(self, text_box):
-		return str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
+		input_lines = str(self.input_textbox.get('1.0', 'end-1c')).split('\n')
+		for i in range (len(input_lines)):
+			input_lines[i] = input_lines[i].split()
+			input_lines[i] = " ".join(input_lines[i])
+
+		return input_lines
 
 
-	def _Print_Output(self, output_lines, output_textbox):
+	def _Print_Output(self, output_textbox, line_manager, sorted_offsets, noise_words = {}):
 
+		
 		output_textbox.configure(state = 'normal')
 
 		output_textbox.delete('1.0', END)
 
-		for i in range(len(output_lines)):
-			output_textbox.insert(END, output_lines[i] + '\n')
+		for i in range (len(sorted_offsets)):
+
+			line = line_manager.getOffsetLine(sorted_offsets[i][0], sorted_offsets[i][1])
+			if line.split()[0] not in noise_words:
+				output_textbox.insert(END, line + '\n')
 
 		output_textbox.configure(state = 'disabled')
