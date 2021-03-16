@@ -68,66 +68,43 @@ class form (Tk):
 	#2. Sort all Circular shifts by using Alphabetizer filter
 	#3. Display Sorted Circular shifts in output_textbox
 	def _Generate_Output(self):
+
+		total_time_start = time.time()
+
+		noise_words = {"a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out", "by", "as", "at", "off"}
+
+		time_start = time.time()
+		line_manager = Line_Manager(self._Get_Textbox_Lines(self.input_textbox))
+		time_end = time.time()
+		total_time = time_end-time_start
+		print("Get_lines", total_time)
 		
-		get_lines_time = []
-		circular_shift_time = []
-		alphabetizer_time = []
-		print_output_time = []
-		total_time_time = []
-		for i in range(50):
-			print('loop=',i)
-			total_time_start = time.time()
 
-			noise_words = {"a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out", "by", "as", "at", "off"}
+		time_start = time.time()
+		circular_shift = Circular_Shift(line_manager)
+		time_end = time.time()
+		total_time = time_end-time_start
+		print("circular shift", total_time)
 
-			time_start = time.time()
-			line_manager = Line_Manager(self._Get_Textbox_Lines(self.input_textbox))
-			time_end = time.time()
-			total_time = time_end-time_start
-			#print("Get_lines", total_time)
-			get_lines_time.append(total_time)
-			
+		time_start = time.time()
+		alphabetizer = Alphabetizer(line_manager, circular_shift.getOffsets())
+		time_end = time.time()
+		total_time = time_end-time_start
+		print("alphabetizer", total_time)
 
-			time_start = time.time()
-			circular_shift = Circular_Shift(line_manager)
-			time_end = time.time()
-			total_time = time_end-time_start
-			#print("circular shift", total_time)
-			circular_shift_time.append(total_time)
+		sorted_offsets = alphabetizer.GetSortedOffsets()
 
-			time_start = time.time()
-			alphabetizer = Alphabetizer(line_manager, circular_shift.getOffsets())
-			time_end = time.time()
-			total_time = time_end-time_start
-			#print("alphabetizer", total_time)
-			alphabetizer_time.append(total_time)
+		time_start = time.time()
+		self._Print_Output(self.output_textbox, line_manager, sorted_offsets, noise_words)
+		time_end = time.time()
+		total_time = time_end-time_start
+		print('output', total_time)
+		print_output_time.append(total_time)
 
-
-			time_start = time.time()
-			sorted_offsets = alphabetizer.GetSortedOffsets()
-			time_end = time.time()
-			total_time = time_end-time_start
-			#print("sorted_indexes", total_time)
-
-			time_start = time.time()
-			self._Print_Output(self.output_textbox, line_manager, sorted_offsets, noise_words)
-			time_end = time.time()
-			total_time = time_end-time_start
-			#print('output', total_time)
-			print_output_time.append(total_time)
-
-			total_time_end = time.time()
-			total_time = total_time_end - total_time_start
-			#print('total time', total_time)
-			total_time_time.append(total_time)
-
-		
-		print("get lines=", mean(get_lines_time))
-		print("circular shift=",mean(circular_shift_time))
-		print('alphabetizer=',mean(alphabetizer_time))
-		print('print output=',mean(print_output_time))
-		print('total time=',mean(total_time_time))
-
+		total_time_end = time.time()
+		total_time = total_time_end - total_time_start
+		print('total time', total_time)
+		total_time_time.append(total_time)
 		
 
 
