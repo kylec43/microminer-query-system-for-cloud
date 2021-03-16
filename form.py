@@ -99,12 +99,10 @@ class form (Tk):
 		time_end = time.time()
 		total_time = time_end-time_start
 		print('output', total_time)
-		print_output_time.append(total_time)
 
 		total_time_end = time.time()
 		total_time = total_time_end - total_time_start
 		print('total time', total_time)
-		total_time_time.append(total_time)
 		
 
 
