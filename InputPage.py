@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 from tkinter.filedialog import askopenfile
 from tkinter import messagebox as mb
+import re
 
 
 class InputPage(tk.Frame):
@@ -27,7 +28,7 @@ class InputPage(tk.Frame):
 		self.input_textbox = ScrolledText(self, height = 25, width = 100, wrap='none')
 
 		noise_words_label = tk.Label(self, text = "Noise words", font=('Helvetica 10 bold'))
-		noise_words_entry = tk.Entry(self)
+		self.noise_words_entry = tk.Entry(self)
 
 		scrollbar1 = tk.Scrollbar(self, command=self.input_textbox.xview, orient='horizontal')
 		self.input_textbox['xscrollcommand'] = scrollbar1.set
@@ -42,7 +43,7 @@ class InputPage(tk.Frame):
 		scrollbar1.grid(row = 5, column = 2, columnspan = gridSizeColumns-3, sticky = 'EW')
 
 		noise_words_label.grid(row = 6, column = (2 + gridSizeColumns - 3)//2, sticky = 'e')
-		noise_words_entry.grid(row = 7, column = 2, columnspan = gridSizeColumns-3, sticky = 'NESW')
+		self.noise_words_entry.grid(row = 7, column = 2, columnspan = gridSizeColumns-3, sticky = 'NESW')
 
 		generate_button.grid(row = 4, column = 1, sticky='NESW')
 		clear_input_textbox_button.grid(row = 2, column = 1, sticky='NSEW')
@@ -66,16 +67,21 @@ class InputPage(tk.Frame):
 
 
 	def _getInput(self):
-		inputLines = self.input_textbox.get("1.0", tk.END).split('\n')
-		inputLines.pop()
-
+		inputLines = self.input_textbox.get("1.0", 'end -1c').split('\n')
+		print(inputLines)
 		for i in range(len(inputLines)):
 			inputLines[i] = list(" ".join(inputLines[i].split()))
 
 		return inputLines
 
+	def _getNoiseWords(self):
+		noiseWords = self.noise_words_entry.get()
+		noiseWords = re.split(' *,+ *', noiseWords)
+		return noiseWords
 
 
 	def _generateOutput(self):
 		inputLines = self._getInput()
+		noiseWords = self._getNoiseWords()
+		print(noiseWords)
 		print(inputLines)
