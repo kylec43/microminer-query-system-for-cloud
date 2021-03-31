@@ -1,4 +1,4 @@
-from form import form
+from Form import Form
 
-my_form = form()
-my_form.mainloop()
+form = Form()
+form.mainloop()

@@ -5,8 +5,10 @@ from tkinter.scrolledtext import ScrolledText
 
 class OutputPage(tk.Frame):
 
-	def __init__(self):
+	def __init__(self, parent):
 
+		self.parent = parent
+		
 		super(OutputPage, self).__init__()
 
 		#configure grid

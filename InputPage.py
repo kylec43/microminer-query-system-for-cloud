@@ -7,8 +7,9 @@ from tkinter import messagebox as mb
 
 class InputPage(tk.Frame):
 
-	def __init__(self):
+	def __init__(self, parent):
 
+		self.parent = parent
 		super(InputPage, self).__init__()
 
 		#configure grid

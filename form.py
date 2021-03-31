@@ -5,7 +5,7 @@ from OutputPage import OutputPage
 
 
 
-class form (tk.Tk):
+class Form (tk.Tk):
 
 	def __init__(self):
 
@@ -18,8 +18,8 @@ class form (tk.Tk):
 		notebook_style = ttk.Style()
 		notebook_style.configure('Custom.TNotebook.Tab', padding=[36, 6], font=('Helvetica 12 bold'))
 		tabControl = ttk.Notebook(self, style = 'Custom.TNotebook')
-		input_tab = InputPage()
-		output_tab = OutputPage()
+		input_tab = InputPage(self)
+		output_tab = OutputPage(self)
 		tabControl.add(input_tab, text ='Input')
 		tabControl.add(output_tab, text ='Output')
 
