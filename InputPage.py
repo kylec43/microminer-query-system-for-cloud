@@ -4,6 +4,7 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter.filedialog import askopenfile
 from tkinter import messagebox as mb
 import re
+from time import time
 
 
 class InputPage(tk.Frame):
@@ -68,10 +69,9 @@ class InputPage(tk.Frame):
 
 	def _getInput(self):
 		inputLines = self.input_textbox.get("1.0", 'end -1c').split('\n')
-		print(inputLines)
-		for i in range(len(inputLines)):
-			inputLines[i] = list(" ".join(inputLines[i].split()))
 
+		for i in range(len(inputLines)):
+			inputLines[i] = list(' '.join(inputLines[i].split()))
 		return inputLines
 
 	def _getNoiseWords(self):
@@ -81,7 +81,12 @@ class InputPage(tk.Frame):
 
 
 	def _generateOutput(self):
+		start = time()
 		inputLines = self._getInput()
+	
+		end = time()
+		total = end-start
+		print(total)
 		noiseWords = self._getNoiseWords()
 		print(noiseWords)
 		print(inputLines)
