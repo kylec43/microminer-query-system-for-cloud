@@ -31,7 +31,7 @@ class InputPage(tk.Frame):
 
 		scrollbar1 = tk.Scrollbar(self, command=self.input_textbox.xview, orient='horizontal')
 		self.input_textbox['xscrollcommand'] = scrollbar1.set
-		generate_button = ttk.Button(self, text = 'Generate Output', command = None)
+		generate_button = ttk.Button(self, text = 'Generate Output', command = self._generateOutput)
 		load_file_button = ttk.Button(self, text = 'Load file..', command = self._loadFile)
 		clear_input_textbox_button = ttk.Button(self, text = 'Clear', command = self._clearInputBox)
 
@@ -65,5 +65,17 @@ class InputPage(tk.Frame):
 			mb.showerror("Error", "Error: cannot read from file")
 
 
+	def _getInput(self):
+		inputLines = self.input_textbox.get("1.0", tk.END).split('\n')
+		inputLines.pop()
+
+		for i in range(len(inputLines)):
+			inputLines[i] = list(" ".join(inputLines[i].split()))
+
+		return inputLines
 
 
+
+	def _generateOutput(self):
+		inputLines = self._getInput()
+		print(inputLines)
