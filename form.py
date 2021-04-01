@@ -43,24 +43,24 @@ class Form (tk.Tk):
 
 
 	def _executeEvents(self):
-		events = self._eventQueue
 
-		if len(events) > 0:
+		if len(self._eventQueue) > 0:
 
-			if events[0].code == Constants.EVT_KWIC_STARTED:
+			if self.eventQueue[0].code == Constants.EVT_KWIC_STARTED:
 
 				if self.output_tab == None:
 					self.output_tab = OutputPage(self)
 					self.tabControl.add(self.output_tab, text ='Output')
+					
 				self.input_tab.setGenerateButtonState(False)
 				self.output_tab.displayLoadingScreen()
 				self.tabControl.select(1)
 
-			elif events[0].code == Constants.EVT_KWIC_DONE:
+			elif self._eventQueue[0].code == Constants.EVT_KWIC_DONE:
 				self.output_tab.displayOutputScreen()
 				self.input_tab.setGenerateButtonState(True)
 
-			events.pop(0)
+			self._eventQueue.pop(0)
 		
 		self.after(1, self._executeEvents)
 
