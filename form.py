@@ -1,7 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 from InputPage import InputPage
-from OutputPage import OutputPage
+from SubmitPage import SubmitPage
 import Constants
 
 
@@ -12,10 +12,12 @@ class Form (tk.Tk):
 
 		tk.Tk.__init__(self) 
 		
-		self._eventQueue = []
+		self.eventQueue = []
+		
+
 		self.after(1, self._executeEvents)
 
-		self.title('Shared Data OO')
+		self.title('Microminer Input System')
 		self.minsize(800, 600)
 
 		#configure notebook
@@ -23,7 +25,7 @@ class Form (tk.Tk):
 		notebook_style.configure('Custom.TNotebook.Tab', padding=[36, 6], font=('Helvetica 12 bold'))
 		self.tabControl = ttk.Notebook(self, style = 'Custom.TNotebook')
 		self.input_tab = InputPage(self)
-		self.output_tab = None
+		self.submit_tab = None
 		self.tabControl.add(self.input_tab, text ='Input')
 		
 		#configure grid
@@ -39,28 +41,36 @@ class Form (tk.Tk):
 
 
 	def addEvent(self, event):
-		self._eventQueue.append(event)
+		self.eventQueue.append(event)
 
 
 	def _executeEvents(self):
 
-		if len(self._eventQueue) > 0:
+		if len(self.eventQueue) > 0:
 
-			if self.eventQueue[0].code == Constants.EVT_KWIC_STARTED:
+			if self.eventQueue[0].code == Constants.EVT_SUBMIT_STARTED:
 
-				if self.output_tab == None:
-					self.output_tab = OutputPage(self)
-					self.tabControl.add(self.output_tab, text ='Output')
+				if self.submit_tab == None:
+					self.submit_tab = SubmitPage(self)
+					self.tabControl.add(self.submit_tab, text ='Output')
 					
 				self.input_tab.setGenerateButtonState(False)
-				self.output_tab.displayLoadingScreen()
+				self.submit_tab.displayLoadingScreen()
 				self.tabControl.select(1)
 
-			elif self._eventQueue[0].code == Constants.EVT_KWIC_DONE:
-				self.output_tab.displayOutputScreen()
+			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_SUCCESS:
+				self.submit_tab.displaySuccessScreen()
 				self.input_tab.setGenerateButtonState(True)
 
-			self._eventQueue.pop(0)
+			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_FAILURE:
+				self.submit_tab.displayFailScreen()
+				self.input_tab.setGenerateButtonState(True)
+
+			elif self.eventQueue[0].code == Constants.EVT_CLOSE_SUBMIT_PAGE:
+				self.tabControl.forget(1)
+				self.submit_tab = None
+
+			self.eventQueue.pop(0)
 		
 		self.after(1, self._executeEvents)
 

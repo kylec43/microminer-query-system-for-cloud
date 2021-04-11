@@ -6,7 +6,7 @@ from tkinter import messagebox as mb
 import re
 from time import time
 from threading import Thread
-from runKwicSystem import runKwicSystem
+from sendToKwicSystem import sendToKwicSystem
 from Event import Event
 import Constants
 
@@ -46,7 +46,7 @@ class InputPage(tk.Frame):
 
 		scrollbar1 = tk.Scrollbar(self, command=self._input_textbox.xview, orient='horizontal')
 		self._input_textbox['xscrollcommand'] = scrollbar1.set
-		self._generate_button = ttk.Button(self, text = 'Generate Output', command = self._generateOutput)
+		self._submit_button = ttk.Button(self, text = 'Submit to Database', command = self._generateOutput)
 		load_file_button = ttk.Button(self, text = 'Load file..', command = self._loadFile)
 		clear_input_textbox_button = ttk.Button(self, text = 'Clear', command = self._clearInputBox)
 
@@ -59,7 +59,7 @@ class InputPage(tk.Frame):
 		noise_words_label.grid(row = 6, column = (2 + self._gridSizeColumns - 3)//2, sticky = 'e')
 		self._noise_words_entry.grid(row = 7, column = 2, columnspan = self._gridSizeColumns-3, sticky = 'NESW')
 
-		self._generate_button.grid(row = 4, column = 1, sticky='NESW')
+		self._submit_button.grid(row = 4, column = 1, sticky='NESW')
 		clear_input_textbox_button.grid(row = 2, column = 1, sticky='NSEW')
 		load_file_button.grid(row = 3, column = 1, sticky='NSEW')
 
@@ -80,17 +80,11 @@ class InputPage(tk.Frame):
 
 
 	def _getInput(self):
-		inputLines = self._input_textbox.get("1.0", 'end -1c').split('\n')
-
-		for i in range(len(inputLines)):
-			inputLines[i] = ' '.join(inputLines[i].split())
-		return inputLines
+		return self._input_textbox.get("1.0", 'end -1c')
 
 	def _getNoiseWords(self):
-		noiseWords = self._noise_words_entry.get()
-		noiseWords = re.split(' *,* *,+ *,* *| +', noiseWords)
-		if noiseWords[-1] == '': noiseWords.pop()
-		return noiseWords
+		return str(self._noise_words_entry.get())
+
 
 
 	def setGenerateButtonState(self, value):
@@ -99,14 +93,26 @@ class InputPage(tk.Frame):
 		if value != False:
 			state = tk.NORMAL
 
-		self._generate_button.configure(state = state)
+		self._submit_button.configure(state = state)
 
 
 	def _generateOutput(self):
 
-		inputLines = self._getInput()
-		noiseWords = self._getNoiseWords()
+		inputData = self._getInput()
+		noiseWordsData = self._getNoiseWords()
+		
+		if noiseWordsData == '':
+			noiseWordsData = ' '
 
-		kwicThread = Thread(target=runKwicSystem, args=(self._parent, inputLines, noiseWords))
+		if not self._validInput(inputData):
+			mb.showerror("Error", "Error: Invalid input for 'Input' textbox (min. 1 char)")
+			return
+
+
+		kwicThread = Thread(target=sendToKwicSystem, args=(self._parent, inputData, noiseWordsData))
 		kwicThread.start()
+
+
+	def _validInput(self, inputData):
+		return len(inputData) > 0
 
