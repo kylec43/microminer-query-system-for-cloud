@@ -4,19 +4,19 @@ from time import time
 from time import sleep
 import socket
 
-def sendToKwicSystem(parent, inputData, noiseWordsData):
+def fetchQueryResults(parent, inputData):
 
+	queryResults = ""
 	success = True
 	try:
-		parent.addEvent(Event(Constants.EVT_SUBMIT_STARTED))
+		parent.addEvent(Event(Constants.EVT_SEARCH_STARTED))
 
-		
+
 		inputData = inputData.encode('utf-8')
-		noiseWordsData = noiseWordsData.encode('utf-8')
 
 
 		SERVER_IP = 'localhost'  
-		PORT = 12000
+		PORT = 12001
 
 		#Create Client Socket
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -28,28 +28,25 @@ def sendToKwicSystem(parent, inputData, noiseWordsData):
 		client_socket.settimeout(10)
 
 		#Send Message to Server
+		client_socket.sendall(Constants.REQUEST_TYPE_QUERY)
+		queryResults = client_socket.recv(100)
 		client_socket.sendall(inputData)
-		response = client_socket.recv(100)
-		if response.decode('utf-8') == Constants.SERVER_RESPONSE_FAILURE:
-			raise Exception('SUBMIT FAILURE')
-		client_socket.sendall(noiseWordsData)
-
 
 		#Recieve a response from the Server
 		client_socket.settimeout(120)
-		response = client_socket.recv(100)
-		print('Received:', response.decode('utf-8'))
-		if response.decode('utf-8') == Constants.SERVER_RESPONSE_FAILURE:
-			raise Exception('SUBMIT FAILURE')
+		queryResults = client_socket.recv(500000)
+		print('Received:')
+		if queryResults == Constants.SERVER_RESPONSE_QUERY_FAILURE:
+			raise Exception('SEARCH FAILURE')
 
 	except Exception as e:
 		success = False
 		print(e)
 	finally:
 		if success:
-			parent.addEvent(Event(Constants.EVT_SUBMIT_SUCCESS))
+			parent.addEvent(Event(Constants.EVT_SEARCH_SUCCESS, queryResults.decode('utf-8')))
 		else:
-			parent.addEvent(Event(Constants.EVT_SUBMIT_FAILURE))
+			parent.addEvent(Event(Constants.EVT_SEARCH_FAILURE))
 
 		client_socket.close()
 

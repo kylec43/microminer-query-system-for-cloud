@@ -1,7 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 from InputPage import InputPage
-from SubmitPage import SubmitPage
+from OutputPage import OutputPage
 import Constants
 
 
@@ -17,7 +17,7 @@ class Form (tk.Tk):
 
 		self.after(1, self._executeEvents)
 
-		self.title('Microminer Input System')
+		self.title('Microminer Query System')
 		self.minsize(800, 600)
 
 		#configure notebook
@@ -25,7 +25,7 @@ class Form (tk.Tk):
 		notebook_style.configure('Custom.TNotebook.Tab', padding=[36, 6], font=('Helvetica 12 bold'))
 		self.tabControl = ttk.Notebook(self, style = 'Custom.TNotebook')
 		self.input_tab = InputPage(self)
-		self.submit_tab = None
+		self.output_tab = None
 		self.tabControl.add(self.input_tab, text ='Input')
 		
 		#configure grid
@@ -48,27 +48,32 @@ class Form (tk.Tk):
 
 		if len(self.eventQueue) > 0:
 
-			if self.eventQueue[0].code == Constants.EVT_SUBMIT_STARTED:
+			if self.eventQueue[0].code == Constants.EVT_SEARCH_STARTED:
 
-				if self.submit_tab == None:
-					self.submit_tab = SubmitPage(self)
-					self.tabControl.add(self.submit_tab, text ='Output')
+				if self.output_tab == None:
+					self.output_tab = OutputPage(self)
+					self.tabControl.add(self.output_tab, text ='Output')
+				else:
+					self.tabControl.forget(1)
+					self.output_tab = OutputPage(self)
+					self.tabControl.add(self.output_tab, text ='Output')
+
 					
-				self.input_tab.setGenerateButtonState(False)
-				self.submit_tab.displayLoadingScreen()
+				self.input_tab.setSearchButtonState(False)
+				self.output_tab.displayLoadingScreen()
 				self.tabControl.select(1)
 
-			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_SUCCESS:
-				self.submit_tab.displaySuccessScreen()
-				self.input_tab.setGenerateButtonState(True)
+			elif self.eventQueue[0].code == Constants.EVT_SEARCH_SUCCESS:
+				self.output_tab.displayOutputScreen(self.eventQueue[0].data)
+				self.input_tab.setSearchButtonState(True)
 
-			elif self.eventQueue[0].code == Constants.EVT_SUBMIT_FAILURE:
-				self.submit_tab.displayFailScreen()
-				self.input_tab.setGenerateButtonState(True)
+			elif self.eventQueue[0].code == Constants.EVT_SEARCH_FAILURE:
+				self.output_tab.displayFailScreen()
+				self.input_tab.setSearchButtonState(True)
 
-			elif self.eventQueue[0].code == Constants.EVT_CLOSE_SUBMIT_PAGE:
+			elif self.eventQueue[0].code == Constants.EVT_CLOSE_OUTPUT_PAGE:
 				self.tabControl.forget(1)
-				self.submit_tab = None
+				self.output_tab = None
 
 			self.eventQueue.pop(0)
 		

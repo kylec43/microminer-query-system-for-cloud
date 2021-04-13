@@ -6,7 +6,7 @@ from tkinter import messagebox as mb
 import re
 from time import time
 from threading import Thread
-from sendToKwicSystem import sendToKwicSystem
+from fetchQueryResults import fetchQueryResults
 from Event import Event
 import Constants
 
@@ -41,12 +41,9 @@ class InputPage(tk.Frame):
 		input_label = tk.Label(self, text = "Input", font=('Helvetica 10 bold'))
 		self._input_textbox = ScrolledText(self, height = 25, width = 100, wrap='none')
 
-		noise_words_label = tk.Label(self, text = "Noise words", font=('Helvetica 10 bold'))
-		self._noise_words_entry = tk.Entry(self)
-
 		scrollbar1 = tk.Scrollbar(self, command=self._input_textbox.xview, orient='horizontal')
 		self._input_textbox['xscrollcommand'] = scrollbar1.set
-		self._submit_button = ttk.Button(self, text = 'Submit to Database', command = self._generateOutput)
+		self._search_button = ttk.Button(self, text = 'Search', command = self._generateOutput)
 		load_file_button = ttk.Button(self, text = 'Load file..', command = self._loadFile)
 		clear_input_textbox_button = ttk.Button(self, text = 'Clear', command = self._clearInputBox)
 
@@ -56,10 +53,7 @@ class InputPage(tk.Frame):
 		self._input_textbox.grid(row = 2, rowspan = 3, column = 2, columnspan = self._gridSizeColumns-3, sticky = 'NESW')
 		scrollbar1.grid(row = 5, column = 2, columnspan = self._gridSizeColumns-3, sticky = 'EW')
 
-		noise_words_label.grid(row = 6, column = (2 + self._gridSizeColumns - 3)//2, sticky = 'e')
-		self._noise_words_entry.grid(row = 7, column = 2, columnspan = self._gridSizeColumns-3, sticky = 'NESW')
-
-		self._submit_button.grid(row = 4, column = 1, sticky='NESW')
+		self._search_button.grid(row = 4, column = 1, sticky='NESW')
 		clear_input_textbox_button.grid(row = 2, column = 1, sticky='NSEW')
 		load_file_button.grid(row = 3, column = 1, sticky='NSEW')
 
@@ -80,36 +74,33 @@ class InputPage(tk.Frame):
 
 
 	def _getInput(self):
-		return self._input_textbox.get("1.0", 'end -1c')
+		inputData =  self._input_textbox.get("1.0", 'end -1c')
+		inputData = inputData.split()
+		inputData = [x.lower() for x in inputData]
+		return " ".join(inputData)
 
-	def _getNoiseWords(self):
-		return str(self._noise_words_entry.get())
 
 
-
-	def setGenerateButtonState(self, value):
+	def setSearchButtonState(self, value):
 
 		state = tk.DISABLED
 		if value != False:
 			state = tk.NORMAL
 
-		self._submit_button.configure(state = state)
+		self._search_button.configure(state = state)
 
 
 	def _generateOutput(self):
 
 		inputData = self._getInput()
-		noiseWordsData = self._getNoiseWords()
 		
-		if noiseWordsData == '':
-			noiseWordsData = ' '
 
 		if not self._validInput(inputData):
 			mb.showerror("Error", "Error: Invalid input for 'Input' textbox (min. 1 char)")
 			return
 
 
-		kwicThread = Thread(target=sendToKwicSystem, args=(self._parent, inputData, noiseWordsData))
+		kwicThread = Thread(target=fetchQueryResults, args=(self._parent, inputData))
 		kwicThread.start()
 
 
