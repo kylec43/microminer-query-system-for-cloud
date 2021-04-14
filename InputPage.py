@@ -43,7 +43,7 @@ class InputPage(tk.Frame):
 
 		scrollbar1 = tk.Scrollbar(self, command=self._input_textbox.xview, orient='horizontal')
 		self._input_textbox['xscrollcommand'] = scrollbar1.set
-		self._search_button = ttk.Button(self, text = 'Search', command = self._generateOutput)
+		self._search_button = ttk.Button(self, text = 'Search', command = self._fetchQueryResults)
 		load_file_button = ttk.Button(self, text = 'Load file..', command = self._loadFile)
 		clear_input_textbox_button = ttk.Button(self, text = 'Clear', command = self._clearInputBox)
 
@@ -90,7 +90,7 @@ class InputPage(tk.Frame):
 		self._search_button.configure(state = state)
 
 
-	def _generateOutput(self):
+	def _fetchQueryResults(self):
 
 		inputData = self._getInput()
 		
