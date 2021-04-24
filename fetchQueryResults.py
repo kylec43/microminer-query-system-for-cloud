@@ -2,7 +2,6 @@ from Event import Event
 import Constants
 from time import time
 from time import sleep
-import socket
 from DatabaseController import DatabaseController
 
 def fetchQueryResults(parent, inputData):
